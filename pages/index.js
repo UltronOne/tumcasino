@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {Line} from 'react-chartjs-2';
 
-const data = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+var data = {
+  labels: [],
   datasets: [
     {
       label: 'My First dataset',
@@ -23,29 +23,58 @@ const data = {
       pointHoverBorderWidth: 2,
       pointRadius: 1,
       pointHitRadius: 10,
-      data: [65, 59, 80, 81, 56, 55, 40]
+      data: []
     }
   ]
 };
 
+function crash() {
+  var zufallsnummer = Math.floor(Math.random()*Math.pow(2, 52))
+  var crashmultiplikator = ((100*Math.pow(2,52)-zufallsnummer) / (Math.pow(2, 52) - zufallsnummer)) / 100;
+  return crashmultiplikator;
+}
+
+function draw_crashcurve(crashmultiplikator,a) {
+  var i = a;
+  var zeit = (crashmultiplikator / 0.1) - 10;
+  var multiplikator_schritte = (crashmultiplikator - 1) / zeit
+  var grafen_werte = [];
+ 
+  grafen_werte[i]=(multiplikator_schritte * i);
+  console.log(grafen_werte[i]);
+  data.datasets[0].data.push(multiplikator_schritte * i)
+  
+  setTimeout(function() {
+       if(i<=zeit){draw_crashcurve(crashmultiplikator,i++)}
+  }, 500);
+  
+}
+
+draw_crashcurve(crash());
+
+
+
 
 export default function Home() {
 
+  draw_crashcurve(crash());
   
 
 
   
   return (
    <>
-
-  
-<div className="p-64">
-    <h2>Line Example</h2>
+<div className="m-64">
+<div className="m-64">
+<div className="m-64">
+    <h2 onClick={() => addData()}>Line Example-----------------------------------------------------</h2>
     <Line
       data={data}
       width={400}
       height={400}
     />
+  </div>
+  </div>
   </div>
   
 
